@@ -13,10 +13,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
+    SharedPref sharedpref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES) {
+        sharedpref = new SharedPref(this);
+        if (sharedpref.loadDarkThemeState()==true) {
             setTheme(R.style.DarkTheme);
         }
         else setTheme(R.style.AppTheme);
@@ -44,11 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
             setTheme(R.style.DarkTheme);
-            Toast.makeText(getApplicationContext(),"Dark Theme Applied!",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Dark Theme Applied!",Toast.LENGTH_SHORT).show();
         }
         else{
             setTheme(R.style.AppTheme);
-            Toast.makeText(getApplicationContext(),"Light Theme Applied!",Toast.LENGTH_SHORT).show();
         }
         return true;
     }
@@ -63,13 +63,13 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_dark_theme) {
             //set theme to dark
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            sharedpref.setDarkThemeState(true);
             restartApp();
             return true;
         }
         if (id == R.id.action_light_theme) {
             //set theme to light
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            sharedpref.setDarkThemeState(false);
             restartApp();
             return true;
         }
